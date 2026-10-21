@@ -10,33 +10,70 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CutomerListIndexRouteImport } from './routes/cutomer-list/index'
+import { Route as CutomerListUpdateCustomerRouteImport } from './routes/cutomer-list/update-customer'
+import { Route as NewCustomerIndexRouteImport } from './routes/new-customer/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CutomerListIndexRoute = CutomerListIndexRouteImport.update({
+  id: '/cutomer-list/',
+  path: '/cutomer-list/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CutomerListUpdateCustomerRoute =
+  CutomerListUpdateCustomerRouteImport.update({
+    id: '/cutomer-list/update-customer',
+    path: '/cutomer-list/update-customer',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const NewCustomerIndexRoute = NewCustomerIndexRouteImport.update({
+  id: '/new-customer/',
+  path: '/new-customer/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cutomer-list/update-customer': typeof CutomerListUpdateCustomerRoute
+  '/cutomer-list/': typeof CutomerListIndexRoute
+  '/new-customer/': typeof NewCustomerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cutomer-list/update-customer': typeof CutomerListUpdateCustomerRoute
+  '/cutomer-list': typeof CutomerListIndexRoute
+  '/new-customer': typeof NewCustomerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cutomer-list/update-customer': typeof CutomerListUpdateCustomerRoute
+  '/cutomer-list/': typeof CutomerListIndexRoute
+  '/new-customer/': typeof NewCustomerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/cutomer-list/update-customer' | '/cutomer-list/' | '/new-customer/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/cutomer-list/update-customer' | '/cutomer-list' | '/new-customer'
+  id:
+    | '__root__'
+    | '/'
+    | '/cutomer-list/update-customer'
+    | '/cutomer-list/'
+    | '/new-customer/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CutomerListUpdateCustomerRoute: typeof CutomerListUpdateCustomerRoute
+  CutomerListIndexRoute: typeof CutomerListIndexRoute
+  NewCustomerIndexRoute: typeof NewCustomerIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +85,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cutomer-list/': {
+      id: '/cutomer-list/'
+      path: '/cutomer-list'
+      fullPath: '/cutomer-list/'
+      preLoaderRoute: typeof CutomerListIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cutomer-list/update-customer': {
+      id: '/cutomer-list/update-customer'
+      path: '/cutomer-list/update-customer'
+      fullPath: '/cutomer-list/update-customer'
+      preLoaderRoute: typeof CutomerListUpdateCustomerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/new-customer/': {
+      id: '/new-customer/'
+      path: '/new-customer'
+      fullPath: '/new-customer/'
+      preLoaderRoute: typeof NewCustomerIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CutomerListUpdateCustomerRoute: CutomerListUpdateCustomerRoute,
+  CutomerListIndexRoute: CutomerListIndexRoute,
+  NewCustomerIndexRoute: NewCustomerIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
